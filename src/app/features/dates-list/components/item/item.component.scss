@@ -1,0 +1,11 @@
+i {
+    cursor: pointer;
+}
+
+::ng-deep {
+    .p-confirmpopup-footer {
+        margin-top: .5rem;
+        display: flex;
+        justify-content: space-between !important;
+    }
+}

@@ -1,0 +1,9 @@
+CATEGORIES:
+- Romantyczne
+- Jedzenie i picie
+- Kreatywne / artystyczne
+- Aktywne
+- Kultura / edukacja
+- W domu
+- Sezonowe
+- Rozrywka / głupotki

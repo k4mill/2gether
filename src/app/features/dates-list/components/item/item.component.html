@@ -1,0 +1,60 @@
+<p-card
+  [style]="{
+    width: '100%',
+    overflow: 'hidden',
+    boxShadow: '0 0 0 2px var(--p-surface-800)',
+  }"
+>
+  <!-- <ng-template pTemplate="header">
+        <img alt="Card" class="w-full" />
+    </ng-template> -->
+  <ng-template pTemplate="title">
+    <div class="flex justify-content-between">
+      <span>{{ event().title }}</span>
+      @if (!event().completed || datesService.isSaving()) {
+        <i class="pi pi-pencil p-1" [routerLink]="['edit', event().id]"></i>
+      }
+    </div>
+  </ng-template>
+  <ng-template pTemplate="subtitle">
+    {{ event().dateOfCompletion | date: "dd/MM/yyyy HH:mm" }}
+  </ng-template>
+
+  @for (category of event()?.categories; track category) {
+    <p-tag styleClass="mr-2 mb-2">{{ category | category }}</p-tag>
+  }
+
+  <p>
+    {{ event()?.description }}
+  </p>
+  <ng-template pTemplate="footer">
+    <p-confirmpopup />
+    <div class="w-6 flex gap-4 mt-1">
+      <p-button
+        severity="danger"
+        class="w-full"
+        styleClass="w-full"
+        [disabled]="
+          (isDeleting() && datesService.isDeleting()) ||
+          datesService.allData().length <= 1
+        "
+        [label]="
+          isDeleting() && datesService.isDeleting() ? 'Usuwanie...' : 'Usuń'
+        "
+        [outlined]="true"
+        (click)="delete($event)"
+      />
+      @if (!event().completed || datesService.isSaving()) {
+        <p-button
+          class="w-full"
+          styleClass="w-full"
+          [disabled]="isSaving() && datesService.isSaving()"
+          [label]="
+            isSaving() && datesService.isSaving() ? 'Kończenie...' : 'Zakończ'
+          "
+          (click)="finish($event)"
+        />
+      }
+    </div>
+  </ng-template>
+</p-card>
