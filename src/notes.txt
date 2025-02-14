@@ -7,3 +7,10 @@ CATEGORIES:
 - W domu
 - Sezonowe
 - Rozrywka / głupotki
+
+
+TODO:
+nest backend
+native push notifications
+    https://www.youtube.com/watch?v=JVMiTexyp6U&ab_channel=DailyWebCoding
+    https://medium.com/@dnyaneshwarsukashe/implementing-web-push-notifications-in-angular-and-nestjs-4d33a8e14af5
