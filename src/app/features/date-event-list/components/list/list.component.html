@@ -1,0 +1,42 @@
+@if (!isLoading()) {
+  <span class="stroke"></span>
+  <p-button
+    severity="success"
+    size="large"
+    icon="pi pi-plus"
+    styleClass="fixed bottom-[2rem] right-[2rem] scale-[1.4] !text-surface-100 !border-0"
+    [routerLink]="['/', 'add']"
+    [rounded]="true"
+  />
+
+  <div class="flex flex-column gap-4">
+    @for (event of allData(); track event.id) {
+      <app-date-item
+        [event]="event"
+        (completed)="onComplete($event)"
+        (deleted)="onDelete($event)"
+      ></app-date-item>
+    }
+  </div>
+} @else {
+  <div class="flex flex-column">
+    <p-skeleton
+      shape="rectangle"
+      width="90vw"
+      height="10vh"
+      styleClass="my-2 mx-1"
+    ></p-skeleton>
+    <p-skeleton
+      shape="rectangle"
+      width="90vw"
+      height="20vh"
+      styleClass="my-2 mx-1"
+    ></p-skeleton>
+    <p-skeleton
+      shape="rectangle"
+      width="90vw"
+      height="20vh"
+      styleClass="my-2 mx-1"
+    ></p-skeleton>
+  </div>
+}

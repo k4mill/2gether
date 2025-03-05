@@ -15,3 +15,9 @@ export interface ApiResponseSingle<T> {
 export interface ApiResponsePaginated<T> extends ApiResponseSingle<T> {
   total: number;
 }
+
+export interface ApiErrorResponse {
+  message: string | string[];
+  error: string;
+  statusCode: number;
+}

@@ -1,0 +1,16 @@
+:host {
+    padding: 2rem;
+
+    ::ng-deep {
+
+        .p-fileupload-basic {
+            justify-content: start;
+        }
+
+        .filelabel {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}

@@ -1,0 +1,162 @@
+@if (imageLoading) {
+  <div
+    class="fixed top-0 left-0 w-full h-full z-50 bg-black opacity-75 flex items-center justify-center"
+  >
+    <p-progressSpinner
+      strokeWidth="8"
+      animationDuration="1s"
+      styleClass="opacity-100 scale-50"
+    ></p-progressSpinner>
+  </div>
+}
+
+@if (!entityLoading()) {
+  <h1 class="ml-4 text-2xl font-bold">
+    {{ mode === "edit" ? "Edytuj" : "Dodaj" }} randkę
+  </h1>
+  <form [formGroup]="form">
+    <div class="flex justify-content-between flex-column gap-2 w-full p-4">
+      <p-iftaLabel variant="on">
+        <input id="title" formControlName="title" pInputText />
+        <label for="title">Nazwa</label>
+      </p-iftaLabel>
+
+      <p-iftaLabel>
+        <p-datepicker
+          formControlName="date_completion"
+          hourFormat="24"
+          id="name"
+          [dateFormat]="'dd/mm/yy'"
+          [showTime]="true"
+        />
+        <label for="date">Data</label>
+      </p-iftaLabel>
+      @if (willDateBeCompleted && !entity()?.completed) {
+        <div
+          class="flex items-center gap-3 my-2"
+          style="color: var(--p-orange-400)"
+        >
+          <i class="pi pi-exclamation-triangle"></i>
+          <p>Po zapisaniu randka będzie zakończona</p>
+        </div>
+      }
+
+      <p-iftalabel>
+        <textarea
+          id="description"
+          rows="5"
+          cols="30"
+          pTextarea
+          formControlName="description"
+        ></textarea>
+        <label for="description">Opis</label>
+      </p-iftalabel>
+
+      <p-iftalabel>
+        <p-multiselect
+          display="chip"
+          formControlName="categories"
+          name="categories"
+          placeholder="Wybierz kategorie"
+          styleClass="w-full"
+          [options]="categories"
+        ></p-multiselect>
+        <label for="categories">Kategorie</label>
+      </p-iftalabel>
+
+      <div class="mt-2 p-3 border-1 bg-zinc-950 border-zinc-700 rounded-md">
+        <label for="photo" class="text-zinc-400 text-sm block mb-2"
+          >Zdjęcie</label
+        >
+        <p-fileupload
+          #fu
+          name="demo[]"
+          id="photo"
+          mode="basic"
+          chooseLabel="Wybierz zdjęcie"
+          chooseIcon="pi pi-upload"
+          accept="image/*"
+          [maxFileSize]="5 * 1024 * 1024"
+          [files]="form.value.photo ? fu.files : []"
+          [invalidFileSizeMessageSummary]="'Zbyt duży rozmiar pliku'"
+          [invalidFileSizeMessageDetail]="
+            ' - maksymalny rozmiar to ' +
+            (fu.maxFileSize! / 1024 / 1024 | number: '1.0-2') +
+            'MB'
+          "
+          [invalidFileTypeMessageSummary]="'Nieprawidłowy typ pliku'"
+          [invalidFileTypeMessageDetail]="
+            ' - dozwolone są tylko pliki graficzne'
+          "
+          (onSelect)="onImageSelect($event)"
+          (onError)="onImageError()"
+        />
+
+        @if (form.value.photo) {
+          <img
+            [src]="imageUrl"
+            alt="photo"
+            class="mt-2 w-full max-w-80"
+            priority
+          />
+        }
+      </div>
+
+      @if (!entity()?.completed) {
+        <div class="mt-2 flex items-center justify-start gap-3">
+          <p-checkbox
+            formControlName="is_surprise"
+            inputId="is_surprise"
+            styleClass="flex items-center"
+            [binary]="true"
+            [value]="false"
+          />
+          <label for="is_surprise">Niespodzianka</label>
+          <i
+            pTooltip="Wszystkie pola oprócz daty i kategorii będą ukryte"
+            class="pi pi-info-circle text-lg"
+            tooltipEvent="click"
+            life="4000"
+            (click)="showSurpriseInfo()"
+          ></i>
+        </div>
+      }
+
+      <div class="w-6 flex gap-4 mt-1">
+        <p-button
+          label="Anuluj"
+          severity="danger"
+          class="w-full"
+          styleClass="w-full"
+          [outlined]="true"
+          [routerLink]="[previousRouteService.previousUrl]"
+        />
+        <p-button
+          class="w-full"
+          styleClass="w-full"
+          [disabled]="!form.valid || entitySaving()"
+          [label]="
+            mode === 'create'
+              ? entitySaving()
+                ? 'Dodawanie...'
+                : 'Dodaj'
+              : entitySaving()
+                ? 'Zapisywanie...'
+                : 'Zapisz'
+          "
+          (click)="mode === 'create' ? create() : save()"
+        />
+      </div>
+    </div>
+  </form>
+} @else {
+  <p-skeleton width="50%" height="2.5rem" styleClass="ml-4"></p-skeleton>
+  <div class="flex justify-content-between flex-column gap-2 w-full px-4 mt-2">
+    <p-skeleton width="100%" height="3rem" styleClass="my-2"></p-skeleton>
+    <p-skeleton width="100%" height="3rem" styleClass="my-2"></p-skeleton>
+    <p-skeleton width="75%" height="8rem" styleClass="my-2"></p-skeleton>
+    <p-skeleton width="100%" height="3rem" styleClass="my-2"></p-skeleton>
+    <p-skeleton width="100%" height="16rem" styleClass="my-2"></p-skeleton>
+    <p-skeleton width="100%" height="3rem" styleClass="my-2"></p-skeleton>
+  </div>
+}

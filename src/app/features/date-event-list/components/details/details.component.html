@@ -1,0 +1,33 @@
+<div
+  class="my-2 flex justify-start items-center gap-2"
+  (click)="toggleDetails(eventId())"
+>
+  <i
+    class="pi pi-chevron-down transition-all ease-in-out duration-[150ms]"
+    [class.-rotate-180]="expanded"
+  ></i>
+  <span>{{ this.expanded ? "Zwiń" : "Rozwiń" }} szczegóły</span>
+</div>
+@if (expanded) {
+  <div class="overflow-hidden px-3" @expand>
+    @if (!entityLoading()) {
+      <h3 class="font-semibold">Opis randki</h3>
+      <p class="text-zinc-400 mb-3">{{ entity?.description || "-" }}</p>
+
+      <h3 class="font-semibold">Zdjęcie z randki</h3>
+      @if (entity?.photo) {
+        <img class="rounded-md mb-3" [src]="imageUrl" alt="Zdjęcie" />
+      } @else {
+        <p class="text-zinc-400 mb-3">-</p>
+      }
+    } @else {
+      <div class="flex flex-column gap-1">
+        <p-skeleton width="25%"></p-skeleton>
+        <p-skeleton width="100%" class="mb-2"></p-skeleton>
+
+        <p-skeleton width="25%"></p-skeleton>
+        <p-skeleton width="100%" height="40vh" class="mb-2"></p-skeleton>
+      </div>
+    }
+  </div>
+}

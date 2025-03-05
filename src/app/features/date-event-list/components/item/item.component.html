@@ -10,23 +10,20 @@
     </ng-template> -->
   <ng-template pTemplate="title">
     <div class="flex justify-content-between">
-      <span>{{ event().title }}</span>
-      @if (!event().completed || datesService.isSaving()) {
-        <i class="pi pi-pencil p-1" [routerLink]="['edit', event().id]"></i>
-      }
+      <span class="font-bold">{{ event().title }}</span>
+      <i class="pi pi-pencil p-1" [routerLink]="['/', 'edit', event().id]"></i>
     </div>
   </ng-template>
   <ng-template pTemplate="subtitle">
-    {{ event().dateOfCompletion | date: "dd/MM/yyyy HH:mm" }}
+    {{ event().date_completion | date: "dd/MM/yyyy HH:mm" }}
   </ng-template>
 
-  @for (category of event()?.categories; track category) {
+  @for (category of event().categories; track category) {
     <p-tag styleClass="mr-2 mb-2">{{ category | category }}</p-tag>
   }
 
-  <p>
-    {{ event()?.description }}
-  </p>
+  <app-date-event-details [eventId]="event().id"></app-date-event-details>
+
   <ng-template pTemplate="footer">
     <p-confirmpopup />
     <div class="w-6 flex gap-4 mt-1">
@@ -34,24 +31,16 @@
         severity="danger"
         class="w-full"
         styleClass="w-full"
-        [disabled]="
-          (isDeleting() && datesService.isDeleting()) ||
-          datesService.allData().length <= 1
-        "
-        [label]="
-          isDeleting() && datesService.isDeleting() ? 'Usuwanie...' : 'Usuń'
-        "
+        [disabled]="dateEventsService.allCount() <= 1"
+        [label]="'Usuń'"
         [outlined]="true"
         (click)="delete($event)"
       />
-      @if (!event().completed || datesService.isSaving()) {
+      @if (!event().completed) {
         <p-button
           class="w-full"
           styleClass="w-full"
-          [disabled]="isSaving() && datesService.isSaving()"
-          [label]="
-            isSaving() && datesService.isSaving() ? 'Kończenie...' : 'Zakończ'
-          "
+          [label]="'Zakończ'"
           (click)="finish($event)"
         />
       }

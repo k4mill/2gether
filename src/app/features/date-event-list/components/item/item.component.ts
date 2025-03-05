@@ -6,17 +6,22 @@ import { ButtonModule } from 'primeng/button';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { TagModule } from 'primeng/tag';
 
-import { Category, DateEvent } from '../../models/dates-list.model';
 import { RouterModule } from '@angular/router';
 import { CategoryPipe } from '../../../../core/pipes/category.pipe';
 import { ConfirmationService } from 'primeng/api';
-import { DatesService } from '../../services/dates.service';
+import { DateEventsService } from '../../services/date-events.service';
+import { DateEventDto } from '../../../../shared/models/api/dateEventDto';
+import { Category } from '../../../../shared/models/select/enums.model';
+import { UpdateDateEventDto } from '../../../../shared/models/api/updateDateEventDto';
+import { DateEventDetailsDto } from '../../../../shared/models/api/dateEventDetailsDto';
+import { DateEventDetailsComponent } from '../details/details.component';
 
 @Component({
   selector: 'app-date-item',
   standalone: true,
   imports: [
     CategoryPipe,
+    DateEventDetailsComponent,
     DatePipe,
     CardModule,
     ConfirmPopupModule,
@@ -30,16 +35,12 @@ import { DatesService } from '../../services/dates.service';
 })
 export class DateItemComponent {
   confirmationService = inject(ConfirmationService);
-  datesService = inject(DatesService);
+  dateEventsService = inject(DateEventsService);
 
-  event = input.required<DateEvent>();
+  event = input.required<DateEventDto>();
 
   completed = output<number>();
   deleted = output<number>();
-  editing = output<DateEvent>();
-
-  isSaving = signal(false);
-  isDeleting = signal(false);
 
   Category = Category;
 
@@ -62,8 +63,6 @@ export class DateItemComponent {
         styleClass: 'ml-0',
       },
       accept: () => {
-        this.isDeleting.set(true);
-        this.datesService.isDeleting.set(true);
         this.deleted.emit(this.event().id);
       },
       reject: () => {},
@@ -89,8 +88,6 @@ export class DateItemComponent {
         styleClass: 'ml-0',
       },
       accept: () => {
-        this.isSaving.set(true);
-        this.datesService.isSaving.set(true);
         this.completed.emit(this.event().id);
       },
       reject: () => {},

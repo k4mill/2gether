@@ -1,0 +1,11 @@
+:host {
+    width: 90%;
+    margin: 2vh auto;
+
+    ::ng-deep {
+        .p-button-success {
+            background-image: linear-gradient(to top right, var(--p-emerald-400), var(--p-indigo-400));
+            box-shadow: 0 2px 4px var(--p-zinc-950);
+        }
+    }
+}

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Category } from '../../features/dates-list/models/dates-list.model';
+import { Category } from '../../shared/models/select/enums.model';
 
 @Pipe({
   name: 'category',

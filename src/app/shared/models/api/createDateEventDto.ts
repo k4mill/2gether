@@ -34,5 +34,9 @@ export interface CreateDateEventDto {
      * The category of the date event
      */
     categories: Array<number>;
+    /**
+     * Whether the date event is completed
+     */
+    completed: boolean;
 }
 
