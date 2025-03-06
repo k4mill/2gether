@@ -15,10 +15,12 @@
       <p class="text-zinc-400 mb-3">{{ entity?.description || "-" }}</p>
 
       <h3 class="font-semibold">Zdjęcie z randki</h3>
-      @if (entity?.photo) {
+      @if (entity?.photo && entity?.completed) {
         <img class="rounded-md mb-3" [src]="imageUrl" alt="Zdjęcie" />
       } @else {
-        <p class="text-zinc-400 mb-3">-</p>
+        <p class="text-zinc-400 mb-3">
+          {{ entity?.completed ? "-" : "Można dodać po zakończeniu" }}
+        </p>
       }
     } @else {
       <div class="flex flex-column gap-1">

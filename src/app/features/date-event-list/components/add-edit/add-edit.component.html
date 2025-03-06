@@ -64,43 +64,45 @@
         <label for="categories">Kategorie</label>
       </p-iftalabel>
 
-      <div class="mt-2 p-3 border-1 bg-zinc-950 border-zinc-700 rounded-md">
-        <label for="photo" class="text-zinc-400 text-sm block mb-2"
-          >Zdjęcie</label
-        >
-        <p-fileupload
-          #fu
-          name="demo[]"
-          id="photo"
-          mode="basic"
-          chooseLabel="Wybierz zdjęcie"
-          chooseIcon="pi pi-upload"
-          accept="image/*"
-          [maxFileSize]="5 * 1024 * 1024"
-          [files]="form.value.photo ? fu.files : []"
-          [invalidFileSizeMessageSummary]="'Zbyt duży rozmiar pliku'"
-          [invalidFileSizeMessageDetail]="
-            ' - maksymalny rozmiar to ' +
-            (fu.maxFileSize! / 1024 / 1024 | number: '1.0-2') +
-            'MB'
-          "
-          [invalidFileTypeMessageSummary]="'Nieprawidłowy typ pliku'"
-          [invalidFileTypeMessageDetail]="
-            ' - dozwolone są tylko pliki graficzne'
-          "
-          (onSelect)="onImageSelect($event)"
-          (onError)="onImageError()"
-        />
-
-        @if (form.value.photo) {
-          <img
-            [src]="imageUrl"
-            alt="photo"
-            class="mt-2 w-full max-w-80"
-            priority
+      @if (entity()?.completed) {
+        <div class="mt-2 p-3 border-1 bg-zinc-950 border-zinc-700 rounded-md">
+          <label for="photo" class="text-zinc-400 text-sm block mb-2"
+            >Zdjęcie</label
+          >
+          <p-fileupload
+            #fu
+            name="demo[]"
+            id="photo"
+            mode="basic"
+            chooseLabel="Wybierz zdjęcie"
+            chooseIcon="pi pi-upload"
+            accept="image/*"
+            [maxFileSize]="5 * 1024 * 1024"
+            [files]="form.value.photo ? fu.files : []"
+            [invalidFileSizeMessageSummary]="'Zbyt duży rozmiar pliku'"
+            [invalidFileSizeMessageDetail]="
+              ' - maksymalny rozmiar to ' +
+              (fu.maxFileSize! / 1024 / 1024 | number: '1.0-2') +
+              'MB'
+            "
+            [invalidFileTypeMessageSummary]="'Nieprawidłowy typ pliku'"
+            [invalidFileTypeMessageDetail]="
+              ' - dozwolone są tylko pliki graficzne'
+            "
+            (onSelect)="onImageSelect($event)"
+            (onError)="onImageError()"
           />
-        }
-      </div>
+
+          @if (form.value.photo) {
+            <img
+              [src]="imageUrl"
+              alt="photo"
+              class="mt-2 w-full max-w-80"
+              priority
+            />
+          }
+        </div>
+      }
 
       @if (!entity()?.completed) {
         <div class="mt-2 flex items-center justify-start gap-3">

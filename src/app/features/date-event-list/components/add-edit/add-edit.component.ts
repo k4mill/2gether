@@ -4,7 +4,6 @@ import {
   inject,
   OnInit,
   signal,
-  Signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -23,7 +22,6 @@ import {
   FileSelectEvent,
   FileUploadEvent,
   FileUploadModule,
-  UploadEvent,
 } from 'primeng/fileupload';
 import { IftaLabelModule } from 'primeng/iftalabel';
 import { InputTextModule } from 'primeng/inputtext';
@@ -44,7 +42,6 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { Tooltip, TooltipModule } from 'primeng/tooltip';
 import { Entity } from '../../../../core/interfaces/entity.interface';
 import { DateEventsService } from '../../services/date-events.service';
-import { DateEventDto } from '../../../../shared/models/api/dateEventDto';
 import { PreviousRouteService } from '../../../../core/services/previous-route.service';
 import { CommonModule } from '@angular/common';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
@@ -141,6 +138,7 @@ export class DateAddEditComponent implements OnInit, Entity {
             this.imageUrl = URL.createObjectURL(blob);
           }
           if (data.completed) this.form.get('date_completion')?.disable();
+          this.toggleForm();
         }),
         finalize(() => this.entityLoading.set(false)),
       )
@@ -150,7 +148,7 @@ export class DateAddEditComponent implements OnInit, Entity {
   save() {
     const updatedEvent = <UpdateDateEventDto>{
       ...this.form.getRawValue(),
-      completed: this.willDateBeCompleted,
+      completed: !this.entity()?.completed ? this.willDateBeCompleted : true,
     };
 
     this.entitySaving.set(true);
@@ -168,6 +166,8 @@ export class DateAddEditComponent implements OnInit, Entity {
             ...response.data,
             date_completion: new Date(response.data.date_completion),
           });
+
+          this.toggleForm();
 
           this.entitySaving.set(false);
         }),
@@ -194,6 +194,17 @@ export class DateAddEditComponent implements OnInit, Entity {
         }),
       )
       .subscribe();
+  }
+
+  toggleForm() {
+    Object.keys(this.form.controls)
+      .filter((key) => key !== 'is_surprise')
+      .forEach((key) => {
+        if (this.entity()?.completed) return;
+        this.entity()?.is_surprise
+          ? this.form.controls[key].disable()
+          : this.form.controls[key].enable();
+      });
   }
 
   async onImageSelect(event: FileSelectEvent) {
