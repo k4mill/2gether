@@ -1,17 +1,11 @@
-import { Component, inject, input, signal, Signal } from '@angular/core';
+import { Component, inject, input, signal } from '@angular/core';
 
 import { DateEventService } from '../../services/date-event.service';
 import { SkeletonModule } from 'primeng/skeleton';
 import { DateEventDetailsDto } from '../../../../shared/models/api/dateEventDetailsDto';
-import { finalize, map, switchMap, tap, timer } from 'rxjs';
+import { finalize, map, tap } from 'rxjs';
 import { Entity } from '../../../../core/interfaces/entity.interface';
-import {
-  trigger,
-  state,
-  style,
-  transition,
-  animate,
-} from '@angular/animations';
+import { trigger, style, transition, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-date-event-details',
@@ -23,11 +17,11 @@ import {
     trigger('expand', [
       transition(':enter', [
         style({ height: '0', opacity: 0 }),
-        animate('0.15s ease-in-out', style({ height: '*', opacity: 1 })),
+        animate('0.25s ease-in-out', style({ height: '*', opacity: 1 })),
       ]),
       transition(':leave', [
         style({ height: '*', opacity: 1 }),
-        animate('0.15s ease-in-out', style({ height: '0', opacity: 0 })),
+        animate('0.25s ease-in-out', style({ height: '0', opacity: 0 })),
       ]),
     ]),
   ],
