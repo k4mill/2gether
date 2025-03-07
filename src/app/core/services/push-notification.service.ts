@@ -10,7 +10,7 @@ export class PushNotificationService {
   http = inject(HttpClient);
   swPush = inject(SwPush);
 
-  constructor() {
+  requestPermission() {
     this.swPush.messages.subscribe(console.log);
 
     this.swPush.subscription.subscribe((subscription) => {

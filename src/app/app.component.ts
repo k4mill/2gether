@@ -1,6 +1,11 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { MessageService, PrimeNGConfig } from 'primeng/api';
+import {
+  ConfirmationService,
+  MessageService,
+  PrimeNGConfig,
+} from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Aura } from 'primeng/themes/aura';
 import { ToastModule } from 'primeng/toast';
 import { DateEventsService } from './features/date-event-list/services/date-events.service';
@@ -11,8 +16,9 @@ import { PushNotificationService } from './core/services/push-notification.servi
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterModule, ToastModule],
+  imports: [ConfirmDialogModule, RouterModule, ToastModule],
   providers: [
+    ConfirmationService,
     MessageService,
     DateEventsService,
     DateEventService,
@@ -21,7 +27,8 @@ import { PushNotificationService } from './core/services/push-notification.servi
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  readonly confirmationService = inject(ConfirmationService);
   readonly dateEventsService = inject(DateEventsService);
   readonly previousRouteService = inject(PreviousRouteService);
   readonly pushNotificationService = inject(PushNotificationService);
@@ -52,6 +59,27 @@ export class AppComponent {
         prefix: 'p',
         darkModeSelector: 'system',
         cssLayer: false,
+      },
+    });
+  }
+
+  ngOnInit() {
+    this.confirmationService.confirm({
+      header: 'Powiadomienia',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-bell',
+      rejectButtonProps: {
+        label: 'Nie',
+        severity: 'danger',
+        outlined: true,
+      },
+      rejectButtonStyleClass: 'm-4',
+      acceptButtonProps: { label: 'Tak', severity: 'success' },
+      acceptButtonStyleClass: '!p-4',
+      message: 'Czy chcesz otrzymywać powiadomienia?',
+      accept: () => {
+        this.pushNotificationService.requestPermission();
       },
     });
   }
