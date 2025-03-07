@@ -6,6 +6,7 @@ import { DateEventsService } from '../../services/date-events.service';
 import { CommonModule } from '@angular/common';
 import { DateEventDto } from '../../../../shared/models/api/dateEventDto';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { PushNotificationService } from '../../../../core/services/push-notification.service';
 
 @Component({
   selector: 'app-tabs',
@@ -17,6 +18,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 })
 export class TabsComponent {
   dateEventsService = inject(DateEventsService);
+  pushNotificationService = inject(PushNotificationService);
   route = inject(ActivatedRoute);
 
   events: Signal<DateEventDto[]>;
