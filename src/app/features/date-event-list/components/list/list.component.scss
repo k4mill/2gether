@@ -1,6 +1,7 @@
 :host {
     width: 90%;
     margin: 2vh auto;
+    view-transition-name: list-component;
 
     ::ng-deep {
         .p-button-success {

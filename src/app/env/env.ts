@@ -1,5 +1,5 @@
 export const env = {
   apiBaseUrl: '/api',
   vapidPublicKey:
-    'BNXSBj0W5dMYGULfASG-Cyj5zKFmCZduNxFVmpjGkOHRazIQoTmezz904H1Ghgmx9aQW_8SaX0ULaXe8PGDi9XY',
+    'BPTwJ9bobxwZCOYJ2yFqcdkRU6OgMMOEzif3Bw44fg-kjBZCnz7q-k_PuRQSeAAFFSPMkPknhQ1R2YG29Fh0RLI',
 };

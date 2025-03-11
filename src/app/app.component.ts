@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   ConfirmationService,
@@ -23,12 +23,12 @@ import { PushNotificationService } from './core/services/push-notification.servi
     DateEventsService,
     DateEventService,
     PreviousRouteService,
+    PushNotificationService,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  readonly confirmationService = inject(ConfirmationService);
+export class AppComponent {
   readonly dateEventsService = inject(DateEventsService);
   readonly previousRouteService = inject(PreviousRouteService);
   readonly pushNotificationService = inject(PushNotificationService);
@@ -59,27 +59,6 @@ export class AppComponent implements OnInit {
         prefix: 'p',
         darkModeSelector: 'system',
         cssLayer: false,
-      },
-    });
-  }
-
-  ngOnInit() {
-    this.confirmationService.confirm({
-      header: 'Powiadomienia',
-      closable: true,
-      closeOnEscape: true,
-      icon: 'pi pi-bell',
-      rejectButtonProps: {
-        label: 'Nie',
-        severity: 'danger',
-        outlined: true,
-      },
-      rejectButtonStyleClass: 'm-4',
-      acceptButtonProps: { label: 'Tak', severity: 'success' },
-      acceptButtonStyleClass: '!p-4',
-      message: 'Czy chcesz otrzymywać powiadomienia?',
-      accept: () => {
-        this.pushNotificationService.requestPermission();
       },
     });
   }

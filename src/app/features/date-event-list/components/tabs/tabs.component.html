@@ -1,7 +1,9 @@
-<p-tabs [value]="route.snapshot.children[0].url.toString()">
-  <p-tablist>
-    <p-tab value="planned" [routerLink]="['planned']">Planowane</p-tab>
-    <p-tab value="completed" [routerLink]="['completed']">Zakończone</p-tab>
-  </p-tablist>
-  <router-outlet></router-outlet>
-</p-tabs>
+@if (!previousRouteService.routingInProgress) {
+  <p-tabs @expand [value]="route.snapshot.children[0].url.toString()">
+    <p-tablist>
+      <p-tab value="planned" [routerLink]="'planned'">Planowane</p-tab>
+      <p-tab value="completed" [routerLink]="'completed'">Zakończone</p-tab>
+    </p-tablist>
+    <router-outlet></router-outlet>
+  </p-tabs>
+}

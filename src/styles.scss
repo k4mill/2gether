@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @import "primeicons/primeicons.css";
 
 @font-face {
@@ -26,4 +25,10 @@ body {
 body {
     font-family: 'Gantari';
     background-color: var(--p-surface-900);
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+    animation-duration: 200ms;
+    animation-timing-function: ease-in-out;
 }

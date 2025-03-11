@@ -7,8 +7,9 @@ import {
   ApplicationConfig,
   provideZoneChangeDetection,
   isDevMode,
+  inject,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, Router, withViewTransitions } from '@angular/router';
 
 import { routes } from './app.routes';
 
@@ -20,7 +21,7 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(),
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions()),
     provideAnimationsAsync(),
     provideServiceWorker('ngsw-worker.js', {
       enabled: !isDevMode(),
